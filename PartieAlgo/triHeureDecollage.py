@@ -71,4 +71,4 @@ def tab_heure(n : int):
 
 
 print(tri_Insertion(tab_heure(10)))
-print(tri_selection(tab_heure(10)))
+print(tri_selection(tab_heure(10))) 
