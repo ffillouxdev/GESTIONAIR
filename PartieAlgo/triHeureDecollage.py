@@ -7,7 +7,7 @@ Tri selection permet de trier ces heures de décollage dans un tab
 def indice_du_mini_a_partir_de(tab: [int], i : int):
     """
     """
-    i_mini = i
+    i_mini = i 
     while i < len(tab):
         if tab[i] < tab[i_mini]:
             i_mini = i
