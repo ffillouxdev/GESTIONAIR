@@ -6,9 +6,6 @@
 #include "vol.h"
 
 
-
-
-
 // Fonction pour lire les donn�es du fichier CSV et remplir le tableau de struct
 void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille) {
     FILE *fichier = fopen(nomFichier, "r+");
@@ -74,7 +71,7 @@ void trierTab3heure(Vol *vols, int taille, int heureActuelle){
 }
 
 
-void afficherTab(Vol *vols, int taille){
+void afficherTabVol(Vol *vols, int taille){
     // on va afficher les vols qui sont dans les 3 heures qui suivent l'heure actuelle
     printf("| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
     for(int i = 0; i < taille; i++){
@@ -101,5 +98,5 @@ void generation_tab(int* heureActuelle, const char *fichierCSV ){
     int taille = 0;
     lireDonneesCSV(fichierCSV, vols, &taille);
     trierTab3heure(vols, taille, *heureActuelle);
-    afficherTab(vols, taille);
+    afficherTabVol(vols, taille);
 }

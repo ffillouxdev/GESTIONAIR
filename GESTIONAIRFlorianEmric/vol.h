@@ -28,7 +28,7 @@ typedef struct Vol Vol;
 // Fonctions
 void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille);
 void trierTab3heure(Vol *vols, int taille, int heureActuelle);
-void afficherTab(Vol *vols, int taille);
+void afficherTabVol(Vol *vols, int taille);
 void generation_tab(int* heureActuelle, const char *fichierCSV);
 
 #endif // VOL_H_INCLUDED

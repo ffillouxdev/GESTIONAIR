@@ -1,1 +1,27 @@
-Il nous faut une structure pour les VOL, PASSAGER
+utiles:
+tri seulement pour les vols sur 3h à venir (en fonction de l'heure actuelle) ->tri_vols_3H()
+
+
+dans vol.c:  
+- generationTabVol
+   1. lireDonneesCSV
+   2. trierTab3heure (à faire)
+   3. afficherTabVol
+
+dans recherche.c:
+- choixTypeRecherche (switch case)
+  1. rechercheCompagnie
+  2. rechercheDestination
+  3. rechercheHeureDecollage
+
+dans passager.c:
+- generationTabPassager
+   1. recupDonneesStructVol (mise en tab en fonction des structs de vol.h)
+   2. trierOrdrePriorité
+   3. afficherTabEmbarquement
+
+dans retard.c:
+- generationTabRetard
+   1. recupDonneesRetard
+   2. reprogrammationRetard
+   3. afficherReprogrammation
