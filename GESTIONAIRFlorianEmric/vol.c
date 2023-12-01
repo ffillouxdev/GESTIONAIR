@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 /*modules*/
 #include "vol.h"
 
@@ -64,39 +60,57 @@ void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille) {
    }
 }
 
-void trierTab3heure(Vol *vols, int taille, int heureActuelle){
-    // on va trier les vols qui sont dans les 3 heures qui suivent l'heure actuelle
-    // on triera les vols par ordre croissant en premier
-
-}
-
-
-void afficherTabVol(Vol *vols, int taille){
-    // on va afficher les vols qui sont dans les 3 heures qui suivent l'heure actuelle
-    printf("| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
-    for(int i = 0; i < taille; i++){
-        printf("| %d | %d | %s | %s | %d | %d | %d | %d | %d | %d | %s |\n",
-            vols[i].heure_decollage,
-            vols[i].numeroVol,
-            vols[i].compagnie,
-            vols[i].destination,
-            vols[i].num_Comptoir_Enregistrement,
-            vols[i].heure_debut_Enregistrement,
-            vols[i].heure_fin_Enregistrement,
-            vols[i].salle_embarquement,
-            vols[i].heure_debut_Embarquement,
-            vols[i].heure_fin_Embarquement,
-            vols[i].etat_vol);
-            printf("------------------------------------------------------------------------------------------\n");
-
+void trierTab(Vol *vols, int taille){
+    // for qui tri les vols (lignes du csv) par heure de décollage
+    for (int i = 0; i < taille - 1; i++) {
+        for (int j = 0; j < taille - i - 1; j++) {
+            if (vols[j].heure_decollage > vols[j + 1].heure_decollage) {
+                // Swap if the current element is greater than the next one
+                Vol temp = vols[j];
+                vols[j] = vols[j + 1];
+                vols[j + 1] = temp;
+            }
+        }
     }
 }
 
-// tableau qui va prendre toutes les structures charg�
-void generation_tab(int* heureActuelle, const char *fichierCSV ){
+
+
+void afficherTabVol(Vol *vols, int taille, int heureActuelle){
+    if ( heureActuelle >= 600 && heureActuelle <=2200 ){
+            // on va afficher les vols qui sont dans les 3 heures qui suivent l'heure actuelle
+        printf("| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
+        printf("------------------------------------------------------------------------------------------\n");
+        int i = 0;
+        while(i < taille){
+            if(vols[i].heure_decollage >= heureActuelle){
+                printf("| %d | %d | %s | %s | %d | %d | %d | %d | %d | %d | %s |\n",
+                    vols[i].heure_decollage,
+                    vols[i].numeroVol,
+                    vols[i].compagnie,
+                    vols[i].destination,
+                    vols[i].num_Comptoir_Enregistrement,
+                    vols[i].heure_debut_Enregistrement,
+                    vols[i].heure_fin_Enregistrement,
+                    vols[i].salle_embarquement,
+                    vols[i].heure_debut_Embarquement,
+                    vols[i].heure_fin_Embarquement,
+                    vols[i].etat_vol);
+                    printf("------------------------------------------------------------------------------------------\n");
+            }
+            i++;
+        }
+    }else{
+        printf("Les vols ne sont compris qu'entre 6h (600) et 22h (2200) dut au couvre feu !");
+    }
+
+}
+
+// tableau qui va prendre toutes les structures charge
+void generation_tab(int *heureActuelle, const char *fichierCSV ){
     Vol vols[TAILLE_TAB];
     int taille = 0;
     lireDonneesCSV(fichierCSV, vols, &taille);
-    trierTab3heure(vols, taille, *heureActuelle);
-    afficherTabVol(vols, taille);
+    trierTab(vols, taille);
+    afficherTabVol(vols, taille, *heureActuelle);
 }

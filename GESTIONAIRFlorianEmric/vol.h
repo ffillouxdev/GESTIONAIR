@@ -1,6 +1,10 @@
 #ifndef VOL_H_INCLUDED
 #define VOL_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 /*Modules*/
 #include "passager.h"
 
@@ -27,8 +31,8 @@ typedef struct Vol Vol;
 
 // Fonctions
 void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille);
-void trierTab3heure(Vol *vols, int taille, int heureActuelle);
-void afficherTabVol(Vol *vols, int taille);
+void trierTab(Vol *vols, int taille);
+void afficherTabVol(Vol *vols, int taille, int heureActuelle);
 void generation_tab(int* heureActuelle, const char *fichierCSV);
 
 #endif // VOL_H_INCLUDED
