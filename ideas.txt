@@ -16,7 +16,7 @@ dans recherche.c:
 
 dans passager.c:
 - generationTabPassager
-   1. recupDonneesStructVol (mise en tab en fonction des structs de vol.h)
+   1. recupDonneesPassager (mise en tab en fonction des structs de vol.h)
    2. trierOrdrePriorité
    3. afficherTabEmbarquement
 
