@@ -52,8 +52,9 @@ int readapteHeures(int heure_decollage, int retard) {
     return readapt;
 }
 
+
 void reprogrammationRetard(Vol *vols, int taille, int heureActuelle){
-    for(int i = 0; i < taille ; i++){
+    for(int i =0; i < taille ; i++){
         // On regarde si le vol n'a pas etait déjà reprogrammer
         if (strstr(vols[i].etat_vol, "Retarde") && !strstr(vols[i].etat_vol, "Reprogramme")) {
             int minRetard = recupDonneesRetard(vols[i].etat_vol); // on recupere les min du %s et on le met en %d
@@ -64,6 +65,14 @@ void reprogrammationRetard(Vol *vols, int taille, int heureActuelle){
                 // conditions qui annule les vols si ils sont au dessus de 2200 (qu'est ce qu'on fait de ces vols?)
                 strcpy(vols[i].etat_vol, "Annule");
             }
+        }
+    }
+
+    // for qui permet d'espacer les vols qui n'ont pas 5mins d'intervalle (la piste n'est pas forcement optimisé)
+    for(int j = 1; j < taille; j++){
+        if((vols[j].heure_decollage - vols[j - 1].heure_decollage) <= 5){
+            vols[j].heure_decollage = vols[j - 1].heure_decollage + 5; // rajoute 5min pour avoir un intervalle de 5min entre les vols
+            printf("%d\n", vols[j].heure_decollage);
         }
     }
 }
