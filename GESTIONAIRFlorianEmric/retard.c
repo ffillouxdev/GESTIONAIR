@@ -9,7 +9,7 @@ void afficherRetardActuel(Vol *vols, int taille, int heureActuelle){
         printf("\n| Numero de vol | Heure decollage attendue | Compagnie | Etat vol |\n");
         printf("------------------------------------------------------------------------------------------\n");
         for(int i = 0; i < taille ; i++){
-        if (vols[i].heure_decollage >= heureActuelle && strcmp(vols[i].etat_vol, "A l'heure") != 0) {
+        if (vols[i].heure_decollage >= heureActuelle && strcmp(vols[i].etat_vol, "A l'heure") == 1) { /* strcmp renvoie 0 si les chaines sont identiques, et 1 si elles sont differentes*/
                 printf("| %d | %d | %s | %s |\n",
                        vols[i].numeroVol,
                        vols[i].heure_decollage,
@@ -20,7 +20,7 @@ void afficherRetardActuel(Vol *vols, int taille, int heureActuelle){
             }
         }
     }else {
-        printf("Il n'y a pas de retards, c'est du jamais vu!");
+        printf("soit il n'y a pas de retards, soit vous n'avez pas respecté l'heure du couvre feu!");
     }
 }
 
@@ -77,7 +77,7 @@ void afficherReprogrammation(Vol *vols, int taille, int heureActuelle){
         printf("\n| Numero de vol | Heure decollage reprogramme | Compagnie | Etat vol |\n");
         printf("------------------------------------------------------------------------------------------\n");
         for(int i = 0; i < taille ; i++){
-        if (vols[i].heure_decollage >= heureActuelle && strcmp(vols[i].etat_vol, "A l'heure") != 0) {
+        if (vols[i].heure_decollage >= heureActuelle && strcmp(vols[i].etat_vol, "A l'heure") == 1) {
                 printf("| %d | %d | %s | %s |\n",
                        vols[i].numeroVol,
                        vols[i].heure_decollage,
@@ -88,7 +88,7 @@ void afficherReprogrammation(Vol *vols, int taille, int heureActuelle){
             }
         }
     }else {
-        printf("Il n'y a pas de retards, c'est du jamais vu!");
+        printf("soit il n'y a pas de retards, soit vous n'avez pas respecté l'heure du couvre feu!");
     }
 }
 
