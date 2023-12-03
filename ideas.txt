@@ -5,7 +5,7 @@ tri seulement pour les vols sur 3h à venir (en fonction de l'heure actuelle) ->
 dans vol.c:  
 - generationTabVol
    1. lireDonneesCSV
-   2. trierTab3heure (à faire)
+   2. trierTab3heure 
    3. afficherTabVol
 
 dans recherche.c:
@@ -25,3 +25,4 @@ dans retard.c:
    1. recupDonneesRetard
    2. reprogrammationRetard
    3. afficherReprogrammation
+   4. FonctionIntervalle5min
