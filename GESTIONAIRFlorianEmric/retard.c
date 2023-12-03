@@ -101,5 +101,11 @@ void afficherReprogrammation(Vol *vols, int taille, int heureActuelle){
     }
 }
 
+void generationTabRetard(int *heureActuelle, int taille, Vol *vols){
+    afficherRetardActuel(vols, taille, *heureActuelle);
+    reprogrammationRetard(vols, taille, *heureActuelle);
+    afficherReprogrammation(vols, taille, *heureActuelle);
+    trierTab(vols, taille);
+}
 
-/*Vol *vols, int taille, int indiceTab,int heureActuelle*/
+

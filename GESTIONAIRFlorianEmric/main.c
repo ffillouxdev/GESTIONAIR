@@ -23,7 +23,6 @@ int main()
 
     generation_tab(&hour, filename);
 
-
     return 0;
 }
  /* exemple d'element struct Passager
