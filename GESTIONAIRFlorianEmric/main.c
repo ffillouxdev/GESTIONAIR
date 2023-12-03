@@ -5,6 +5,7 @@
 /*modules*/
 #include "vol.h"
 #include "passager.h"
+#include "retard.h"
 #include "critere_recherches.h"
 
 
@@ -21,6 +22,7 @@ int main()
     getchar();
 
     generation_tab(&hour, filename);
+
 
     return 0;
 }

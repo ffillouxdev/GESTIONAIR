@@ -36,6 +36,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="passager.h" />
+		<Unit filename="retard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="retard.h" />
 		<Unit filename="vol.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -1,6 +1,6 @@
 /*modules*/
 #include "vol.h"
-
+#include "retard.h"
 
 // Fonction pour lire les donn�es du fichier CSV et remplir le tableau de struct
 void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille) {
@@ -65,7 +65,6 @@ void trierTab(Vol *vols, int taille){
     for (int i = 0; i < taille - 1; i++) {
         for (int j = 0; j < taille - i - 1; j++) {
             if (vols[j].heure_decollage > vols[j + 1].heure_decollage) {
-                // Swap if the current element is greater than the next one
                 Vol temp = vols[j];
                 vols[j] = vols[j + 1];
                 vols[j + 1] = temp;
@@ -78,8 +77,8 @@ void trierTab(Vol *vols, int taille){
 
 void afficherTabVol(Vol *vols, int taille, int heureActuelle){
     if ( heureActuelle >= 600 && heureActuelle <=2200 ){
-            // on va afficher les vols qui sont dans les 3 heures qui suivent l'heure actuelle
-        printf("| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
+        // on va afficher les vols qui sont dans les 3 heures qui suivent l'heure actuelle
+        printf("\n| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
         printf("------------------------------------------------------------------------------------------\n");
         int i = 0;
         while(i < taille){
@@ -107,10 +106,15 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
 }
 
 // tableau qui va prendre toutes les structures charge
-void generation_tab(int *heureActuelle, const char *fichierCSV ){
+void generation_tab(int *heureActuelle, const char *fichierCSV){
     Vol vols[TAILLE_TAB];
     int taille = 0;
     lireDonneesCSV(fichierCSV, vols, &taille);
+    trierTab(vols, taille);
+    afficherTabVol(vols, taille, *heureActuelle);
+    afficherRetardActuel(vols, taille, *heureActuelle);
+    reprogrammationRetard(vols, taille, *heureActuelle);
+    afficherReprogrammation(vols, taille, *heureActuelle);
     trierTab(vols, taille);
     afficherTabVol(vols, taille, *heureActuelle);
 }
