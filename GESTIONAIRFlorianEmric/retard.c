@@ -20,7 +20,7 @@ void afficherRetardActuel(Vol *vols, int taille, int heureActuelle){
             }
         }
     }else {
-        printf("soit il n'y a pas de retards, soit vous n'avez pas respecté l'heure du couvre feu!");
+        printf("soit il n'y a pas de retards, soit vous n'avez pas respecté l'heure du couvre feu!\n");
     }
 }
 
@@ -48,7 +48,7 @@ int readapteHeures(int heure_decollage, int retard) {
     }
 
     int readapt = (h * 100) + mm2;
-//    printf("%d %d %d\n", heure_decollage, retard, readapt);
+    //printf("%d %d %d\n", heure_decollage, retard, readapt);
     return readapt;
 }
 
@@ -97,14 +97,16 @@ void afficherReprogrammation(Vol *vols, int taille, int heureActuelle){
             }
         }
     }else {
-        printf("soit il n'y a pas de retards, soit vous n'avez pas respecté l'heure du couvre feu!");
+        printf("soit il n'y a pas de retards, soit vous n'avez pas respecté l'heure du couvre feu!\n");
     }
 }
 
 void generationTabRetard(int *heureActuelle, int taille, Vol *vols){
     afficherRetardActuel(vols, taille, *heureActuelle);
+
     reprogrammationRetard(vols, taille, *heureActuelle);
     afficherReprogrammation(vols, taille, *heureActuelle);
+
     trierTab(vols, taille);
 }
 

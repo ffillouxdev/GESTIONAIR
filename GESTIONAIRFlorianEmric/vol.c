@@ -1,5 +1,5 @@
 /*modules*/
-#include "vol.h"
+    #include "vol.h"
 #include "retard.h"
 
 // Fonction pour lire les donn�es du fichier CSV et remplir le tableau de struct
@@ -82,7 +82,7 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
         printf("------------------------------------------------------------------------------------------\n");
         int i = 0;
         while(i < taille){
-            if(vols[i].heure_decollage >= heureActuelle){
+            if(vols[i].heure_decollage >= heureActuelle && vols[i].heure_decollage <= (heureActuelle + 300)){
                 printf("| %d | %d | %s | %s | %d | %d | %d | %d | %d | %d | %s |\n",
                     vols[i].heure_decollage,
                     vols[i].numeroVol,
