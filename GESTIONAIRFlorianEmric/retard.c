@@ -111,3 +111,4 @@ void generationTabRetard(int *heureActuelle, int taille, Vol *vols){
 }
 
 
+//Stabilité d’un algorithme: Un tri est dit “stable lorsqu’il ne change pas l’ordre relatif des quantités égales pour la relation d’ordre c’est à dire que si a et b sont deux éléments égaux et que a précède b dans le tableau initial alors a précède b dans le tableau trié.

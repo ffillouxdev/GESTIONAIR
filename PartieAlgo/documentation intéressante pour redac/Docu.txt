@@ -1,0 +1,5 @@
+https://www.maxicours.com/se/cours/trier-par-selection/
+https://www.jesuisundev.com/comprendre-les-algorithmes-de-tri-en-7-minutes/
+https://fr-academic.com/dic.nsf/frwiki/1659217
+https://www.monlyceenumerique.fr/nsi_premiere/algo_a/a2_complexite.php#:~:text=Le%20co%C3%BBt%20(en%20temps)%20d,N%20des%20donn%C3%A9es%20en%20entr%C3%A9e.
+http://lwh.free.fr/pages/algo/tri/tri_selection.html
