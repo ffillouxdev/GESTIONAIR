@@ -16,6 +16,7 @@ int recupDonneesRetard(const char *etat_vol);
 int readapteHeures(int heure_decollage, int retard);
 void afficherReprogrammation(Vol *vols, int taille, int heureActuelle);
 void generationTabRetard(int *heureActuelle, int taille, Vol *vols);
+void OptimiserPiste(Vol *vols, int taille);
 
 
 #endif // RETARD_H_INCLUDED

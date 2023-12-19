@@ -36,6 +36,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="passager.h" />
+		<Unit filename="planeFlying.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="retard.c">
 			<Option compilerVar="CC" />
 		</Unit>

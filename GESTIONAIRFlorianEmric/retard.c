@@ -111,4 +111,16 @@ void generationTabRetard(int *heureActuelle, int taille, Vol *vols){
 }
 
 
+void OptimiserPiste(Vol *vols, int taille){
+    if(vols[0].heure_decollage < 600){
+        vols[0].heure_decollage = 600;
+    }
+
+    for(int i = 1; i < taille; i++){
+        if((vols[i].heure_decollage - vols[i - 1].heure_decollage) > 6){
+            vols[i].heure_decollage = vols[i - 1].heure_decollage + 5;
+        }
+    }
+
+}
 //Stabilité d’un algorithme: Un tri est dit “stable lorsqu’il ne change pas l’ordre relatif des quantités égales pour la relation d’ordre c’est à dire que si a et b sont deux éléments égaux et que a précède b dans le tableau initial alors a précède b dans le tableau trié.

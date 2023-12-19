@@ -83,7 +83,7 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
         int i = 0;
         while(i < taille){
             if(vols[i].heure_decollage >= heureActuelle && vols[i].heure_decollage <= (heureActuelle + 300)){
-                printf("| %d | %d | %s | %s | %d | %d | %d | %d | %d | %d | %s |\n",
+                printf("| %-20d | %d | %s | %s | %d | %d | %d | %d | %d | %d | %s |\n",
                     vols[i].heure_decollage,
                     vols[i].numeroVol,
                     vols[i].compagnie,
@@ -112,7 +112,8 @@ void generation_tab(int *heureActuelle, const char *fichierCSV){
     lireDonneesCSV(fichierCSV, vols, &taille);
     trierTab(vols, taille);
     afficherTabVol(vols, taille, *heureActuelle);
-    generationTabRetard(heureActuelle, taille,vols);
-    afficherTabVol(vols,taille, *heureActuelle);
+    /*generationTabRetard(heureActuelle, taille,vols);
+    OptimiserPiste(vols, taille);*/
+
 }
 

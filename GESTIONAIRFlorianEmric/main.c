@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 /*modules*/
 #include "vol.h"
@@ -8,9 +9,11 @@
 #include "retard.h"
 #include "critere_recherches.h"
 
+void affichagePlane();
 
 int main()
 {
+
     printf("Entrez le nom du fichier : ");
     char filename[50], *a;
     fgets(filename, sizeof(filename), stdin);
@@ -20,7 +23,8 @@ int main()
     int hour;
     scanf("%d", &hour);
     getchar();
-
+    affichagePlane();
+    Sleep(1000);
     generation_tab(&hour, filename);
 
     return 0;
