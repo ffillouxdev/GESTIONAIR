@@ -8,9 +8,9 @@ void gotoxy(int x, int y) {
 }
 
 void affichagePlane() {
-    const char ligne1[] = "            |\n";
-    const char ligne2[] = "            ||\n";
-    const char ligne3[] = "            | |----------[_\\\n";
+    const char ligne1[] = "            |\\\n";
+    const char ligne2[] = "            | \\___________\n";
+    const char ligne3[] = "            |            |_\\\n";
     const char ligne4[] = "             \\_____---_____/\n";
     const char ligne5[] = "              | |       \\.";
     const char ligne6[] = "               \\ \\    ./";
@@ -59,7 +59,7 @@ void affichagePlane() {
             break;
         }
 
-        Sleep(90);
+        Sleep(70);
     }
 
 }

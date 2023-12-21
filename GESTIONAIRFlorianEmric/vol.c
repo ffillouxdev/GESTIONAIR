@@ -112,8 +112,7 @@ void generation_tab(int *heureActuelle, const char *fichierCSV){
     lireDonneesCSV(fichierCSV, vols, &taille);
     trierTab(vols, taille);
     afficherTabVol(vols, taille, *heureActuelle);
-    /*generationTabRetard(heureActuelle, taille,vols);
-    OptimiserPiste(vols, taille);*/
-
+    generationTabRetard(heureActuelle, taille,vols);
+    afficherTabVol(vols, taille, *heureActuelle);
 }
 

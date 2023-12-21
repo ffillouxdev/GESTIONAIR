@@ -24,7 +24,7 @@ int main()
     scanf("%d", &hour);
     getchar();
     affichagePlane();
-    Sleep(1000);
+    Sleep(500);
     generation_tab(&hour, filename);
 
     return 0;

@@ -60,6 +60,10 @@ void reprogrammationRetard(Vol *vols, int taille, int heureActuelle){
             int minRetard = recupDonneesRetard(vols[i].etat_vol); // on recupere les min du %s et on le met en %d
             if(vols[i].heure_decollage <= 2159){
                 vols[i].heure_decollage = readapteHeures(vols[i].heure_decollage, minRetard); // on ajoute son retard à son heure de décollage
+                vols[i].heure_debut_Enregistrement = readapteHeures(vols[i].heure_debut_Enregistrement, minRetard); // on readapte les heures d aussi
+                vols[i].heure_fin_Enregistrement = readapteHeures(vols[i].heure_fin_Enregistrement, minRetard);
+                vols[i].heure_debut_Embarquement = readapteHeures(vols[i].heure_debut_Embarquement, minRetard); // on readapte les heures embarquements aussi
+                vols[i].heure_fin_Embarquement = readapteHeures(vols[i].heure_fin_Embarquement, minRetard);
                 strcpy(vols[i].etat_vol, "Reprogramme"); // on met son etat de vol a reprogramme
             } else {
                 // conditions qui annule les vols si ils sont au dessus de 2200 (qu'est ce qu'on fait de ces vols?)
@@ -72,7 +76,6 @@ void reprogrammationRetard(Vol *vols, int taille, int heureActuelle){
     for(int j = 1; j < taille; j++){
         if((vols[j].heure_decollage - vols[j - 1].heure_decollage) <= 5){
             vols[j].heure_decollage = vols[j - 1].heure_decollage + 5; // rajoute 5min pour avoir un intervalle de 5min entre les vols
-            printf("%d\n", vols[j].heure_decollage);
         }
     }
 }
@@ -102,25 +105,22 @@ void afficherReprogrammation(Vol *vols, int taille, int heureActuelle){
 }
 
 void generationTabRetard(int *heureActuelle, int taille, Vol *vols){
-    afficherRetardActuel(vols, taille, *heureActuelle);
-
+    /*afficherRetardActuel(vols, taille, *heureActuelle);*/
     reprogrammationRetard(vols, taille, *heureActuelle);
-    afficherReprogrammation(vols, taille, *heureActuelle);
-
+    /*afficherReprogrammation(vols, taille, *heureActuelle);*/
     trierTab(vols, taille);
+    /*afficherTabVol(vols, taille, *heureActuelle);*/
+    OptimiserPiste(vols, taille);
 }
 
 
-void OptimiserPiste(Vol *vols, int taille){
-    if(vols[0].heure_decollage < 600){
-        vols[0].heure_decollage = 600;
-    }
-
-    for(int i = 1; i < taille; i++){
-        if((vols[i].heure_decollage - vols[i - 1].heure_decollage) > 6){
-            vols[i].heure_decollage = vols[i - 1].heure_decollage + 5;
+void OptimiserPiste(Vol *vols, int taille) {
+    for (int i = 1; i < taille; i++) {
+        int diff = vols[i].heure_decollage - vols[i - 1].heure_decollage;
+        if (diff > 120) {
+            vols[i].heure_decollage = readapteHeures(vols[i - 1].heure_decollage + 5, 0);
         }
     }
-
 }
+
 //Stabilité d’un algorithme: Un tri est dit “stable lorsqu’il ne change pas l’ordre relatif des quantités égales pour la relation d’ordre c’est à dire que si a et b sont deux éléments égaux et que a précède b dans le tableau initial alors a précède b dans le tableau trié.
