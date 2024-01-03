@@ -20,7 +20,7 @@ void afficherRetardActuel(Vol *vols, int taille, int heureActuelle){
             }
         }
     }else {
-        printf("soit il n'y a pas de retards, soit vous n'avez pas respecté l'heure du couvre feu!\n");
+        printf("soit il n'y a pas de retards, soit vous n'avez pas respectE l'heure du couvre feu!\n");
     }
 }
 

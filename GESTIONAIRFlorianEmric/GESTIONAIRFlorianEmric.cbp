@@ -32,6 +32,9 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="critere_recherches.h" />
+		<Unit filename="flyingplane.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -39,6 +42,10 @@
 		<Unit filename="planeFlying.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="recherche.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="recherche.h" />
 		<Unit filename="retard.c">
 			<Option compilerVar="CC" />
 		</Unit>
