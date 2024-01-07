@@ -82,7 +82,7 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
         printf("------------------------------------------------------------------------------------------\n");
         int i = 0;
         while(i < taille){
-            if(vols[i].heure_decollage >= heureActuelle && vols[i].heure_decollage <= (heureActuelle + 300)){
+            if(vols[i].heure_decollage >= heureActuelle ){
                 printf("| %-20d | %d | %s | %s | %d | %d | %d | %d | %d | %d | %s |\n",
                     vols[i].heure_decollage,
                     vols[i].numeroVol,

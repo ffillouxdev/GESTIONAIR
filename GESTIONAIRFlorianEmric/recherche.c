@@ -26,7 +26,7 @@ void recherche_dest(const char *desti, int taille, Vol *vols) {
     }
 
     if (compt == 0) {
-        deductionRecherche(1, desti, vols, taille);
+        deductionRechercheDestination(1, desti, vols, taille);
     }
 }
 
@@ -56,7 +56,7 @@ void recherche_compagnie(const char *comp, int taille, Vol *vols) {
     }
 
     if (compt == 0) {
-        deductionRecherche(2, comp, vols, taille);
+        deductionRechercheCompagnie(comp, vols, taille);
     }
 }
 
@@ -90,7 +90,7 @@ void recherche_heurDecol(int decol, int taille, Vol *vols) {
     if (compt == 0) {
         char decolChar[20];
         sprintf(decolChar, "%d", decol);
-        deductionRecherche(3, decolChar, vols, taille);
+        deductionRechercheHeuresDecol(decol, vols, taille);
     }
 }
 
@@ -118,57 +118,81 @@ int compareStringsIgnoreCase(const char *str1, const char *str2) {
     return (*str1 == '\0' && *str2 == '\0');
 }
 
-void deductionRecherche(int typeDeRec, const char *saisie, Vol *vols, int taille) {
-    // 1 correspond à la destination, 2 correspond à la compagnie, 3 à l'heure de decollage
-    int i = 0, nbHeureSaisie, compteur = 0;
-
+void deductionRechercheDestination(int typeDeRec, const char *saisie, Vol *vols, int taille) {
     // Convertir la saisie de l'utilisateur en minuscules
     char saisieMinuscule[50];
     strcpy(saisieMinuscule, saisie);
     toLowerString(saisieMinuscule);
 
-    if (typeDeRec == 1 || typeDeRec == 2) {
-        for (i = 0; i < taille; i++) {
-            // Convertir la chaîne dans la structure Vol en minuscules
-            char destinationMinuscule[50];
-            char compagnieMinuscule[50];
-            strcpy(destinationMinuscule, vols[i].destination);
-            strcpy(compagnieMinuscule, vols[i].compagnie);
-            toLowerString(destinationMinuscule);
-            toLowerString(compagnieMinuscule);
+    int suggestionTrouvee = 0;
 
-            const char *deducMot = NULL;
-            if (typeDeRec == 1) {
-                deducMot = strstr(destinationMinuscule, saisieMinuscule);
-            } else if (typeDeRec == 2) {
-                deducMot = strstr(compagnieMinuscule, saisieMinuscule);
-            }
+    for (int i = 0; i < taille; i++) {
+        // Convertir la chaîne dans la structure Vol en minuscules
+        char destinationMinuscule[50];
+        strcpy(destinationMinuscule, vols[i].destination);
+        toLowerString(destinationMinuscule);
 
-            if (deducMot != NULL && strstr(deducMot, saisieMinuscule) != NULL) {
-                suggestionCorrection(saisie, vols[i].compagnie); // Utiliser le nom de la compagnie
-                return;
-            }
+        // Vérifier si la saisie de l'utilisateur est une sous-chaîne de la destination
+        const char *deducMot = strstr(destinationMinuscule, saisieMinuscule);
+
+        if (deducMot != NULL && strstr(deducMot, saisieMinuscule) != NULL) {
+            // Utiliser le nom de la destination comme suggestion
+            suggestionCorrection(saisie, vols[i].destination);
+            suggestionTrouvee = 1;
+            break;
         }
-    } else if (typeDeRec == 3) {
-        nbHeureSaisie = atoi(saisie);
-        printf("\nL'heure que vous avez saisie ne correspond pas à un vol.\n");
-        for (i = 0; i < taille; i++) {
-            if (vols[i].heure_decollage == nbHeureSaisie ||
-                (vols[i].heure_decollage >= nbHeureSaisie - 5 && vols[i].heure_decollage <= nbHeureSaisie + 5)) {
-                printf("Nous avons trouvé celui-ci par contre (dans une plage de 5min avant et après) : \n");
-                printf("------------------------------------------------------------------------------------------------------------------------\n");
-                printf("| Heure | Numero Vol | Destination |\n");
-                printf("------------------------------------------------------------------------------------------------------------------------\n");
-                printf("| %-4d | %-2d | %-20s |\n",
-                       vols[i].heure_decollage,
-                       vols[i].numeroVol,
-                       vols[i].destination
-                );
-                printf("------------------------------------------------------------------------------------------------------------------------\n");
-                compteur++;
-            }
+    }
+
+    if (!suggestionTrouvee) {
+        printf("\nAucune suggestion de destination n'a ete trouvee pour : %s\n", saisie);
+    }
+}
+
+void deductionRechercheCompagnie(const char *saisie, Vol *vols, int taille) {
+    // Convertir la saisie de l'utilisateur en minuscules
+    char saisieMinuscule[50];
+    strcpy(saisieMinuscule, saisie);
+    toLowerString(saisieMinuscule);
+
+    int suggestionTrouvee = 0;
+
+    for (int i = 0; i < taille; i++) {
+        // Convertir la chaîne dans la structure Vol en minuscules
+        char compagnieMinuscule[50];
+        strcpy(compagnieMinuscule, vols[i].compagnie);
+        toLowerString(compagnieMinuscule);
+
+        // Vérifier si la saisie de l'utilisateur est une sous-chaîne de la compagnie
+        if (strstr(compagnieMinuscule, saisieMinuscule) != NULL ||
+            strstr(saisieMinuscule, compagnieMinuscule) != NULL) {
+            // Utiliser le nom de la compagnie comme suggestion
+            suggestionCorrection(saisie, vols[i].compagnie);
+            suggestionTrouvee = 1;
+            break;
         }
-        if (compteur == 0)
-            printf("Il n'y a pas de vols dans un intervalle de 5 minutes avant et après.\n");
+    }
+
+    if (!suggestionTrouvee) {
+        printf("\nAucune suggestion de compagnie n'a ete trouvee pour : %s\n", saisie);
+    }
+}
+
+
+void deductionRechercheHeuresDecol(int heuresSaisies, Vol *vols, int taille) {
+    int suggestionTrouvee = 0;
+
+    for (int i = 0; i < taille; i++) {
+        // Vérifier si l'heure de décollage correspond à la saisie ou se trouve dans une plage de 5 minutes
+        if (vols[i].heure_decollage == heuresSaisies ||
+            (vols[i].heure_decollage >= heuresSaisies - 5 && vols[i].heure_decollage <= heuresSaisies + 5)) {
+            // Utiliser l'heure de décollage comme suggestion
+            printf("Suggestion : %s\n", vols[i].destination); // Utiliser la destination comme suggestion
+            suggestionTrouvee = 1;
+            break;
+        }
+    }
+
+    if (!suggestionTrouvee) {
+        printf("\nAucune suggestion de vol n'a ete trouvee pour l'heure : %d\n", heuresSaisies);
     }
 }

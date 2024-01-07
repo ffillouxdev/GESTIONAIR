@@ -14,7 +14,8 @@ int compareStringsIgnoreCase(const char *str1, const char *str2);
 void recherche_dest(const char *desti, int taille, Vol *vols);
 void recherche_compagnie(const char *comp, int taille, Vol *vols);
 void recherche_heurDecol(int decol, int taille, Vol *vols);
-void deductionRecherche(int typeDeRec, const char *saisie, Vol *vols, int taille);
-void suggestionCorrection(const char *input, const char *suggestion);
+void deductionRechercheDestination(int typeDeRec, const char *saisie, Vol *vols, int taille);
+void deductionRechercheCompagnie(const char *saisie, Vol *vols, int taille);
+void deductionRechercheHeuresDecol(int heuresSaisies, Vol *vols, int taille);
 
-#endif // RECHERCHE_H_INCLUDED
+#endif // RECHERCHE_H

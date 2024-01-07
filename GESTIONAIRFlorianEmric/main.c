@@ -22,7 +22,7 @@ int main()
     tm_info = localtime(&t);
 
     // Calculez l'heure actuelle en format "minuteminuteheureheure"
-    int heureActuelle = 1600;//tm_info->tm_hour * 100 + tm_info->tm_min;
+    int heureActuelle = 600;//tm_info->tm_hour * 100 + tm_info->tm_min;
     Vol vols[TAILLE_TAB];
     int taille = 0;
 
