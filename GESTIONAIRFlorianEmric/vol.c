@@ -1,6 +1,7 @@
 /*modules*/
 #include "vol.h"
-#include "retard.h"
+#include "passager.h"
+
 
 // Fonction pour lire les donn�es du fichier CSV et remplir le tableau de struct
 void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille) {
@@ -44,7 +45,7 @@ void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille) {
             // Assurez-vous que vous avez suffisamment d'espace pour les passagers
             if (i < MAX_PASSAGERS) {
                 // Pour extraire les champs des passagers et les mettre
-                int passagerResultats = sscanf(passager, "%99[^,],%99[^,],%9[^,],%d,%lf",
+                int passagerResultats = sscanf(passager, "%99[^,],%99[^,],%10[^,],%d,%lf",
                     vols[*taille].passager[i].nom,
                     vols[*taille].passager[i].prenom,
                     vols[*taille].passager[i].date_naiss,
@@ -76,14 +77,14 @@ void trierTab(Vol *vols, int taille){
 
 
 void afficherTabVol(Vol *vols, int taille, int heureActuelle){
-    if ( heureActuelle >= 600 && heureActuelle <=2200 ){
+    if ( heureActuelle >= 600 && heureActuelle <=2200){
         // on va afficher les vols qui sont dans les 3 heures qui suivent l'heure actuelle
         printf("\n| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
-        printf("------------------------------------------------------------------------------------------\n");
+        printf("------------------------------------------------------------------------------------------------------------------------\n");
         int i = 0;
         while(i < taille){
-            if(vols[i].heure_decollage >= heureActuelle ){
-                printf("| %-20d | %d | %s | %s | %d | %d | %d | %d | %d | %d | %s |\n",
+            if(vols[i].heure_decollage >= heureActuelle && (vols[i].heure_decollage <= (heureActuelle + 300))){
+                printf("| %-4d | %-2d |             %-20s |    %-10s | %-2d | %-4d | %-4d | %d | %-4d | %-4d | %-17s|\n",
                     vols[i].heure_decollage,
                     vols[i].numeroVol,
                     vols[i].compagnie,
@@ -95,7 +96,7 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
                     vols[i].heure_debut_Embarquement,
                     vols[i].heure_fin_Embarquement,
                     vols[i].etat_vol);
-                    printf("------------------------------------------------------------------------------------------\n");
+                    printf("------------------------------------------------------------------------------------------------------------------------\n");
             }
             i++;
         }
@@ -106,13 +107,16 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
 }
 
 // tableau qui va prendre toutes les structures charge
-void generation_tab(int *heureActuelle, const char *fichierCSV){
+void generation_tab(int *heureActuelle, const char *fichierCSV)
+{
     Vol vols[TAILLE_TAB];
     int taille = 0;
-    lireDonneesCSV(fichierCSV, vols, &taille);
+    /*lireDonneesCSV(fichierCSV, vols, &taille);
     trierTab(vols, taille);
     afficherTabVol(vols, taille, *heureActuelle);
-    generationTabRetard(heureActuelle, taille,vols);
+    trierTab(vols, taille);
     afficherTabVol(vols, taille, *heureActuelle);
+    // Modifiez l'appel de la fonction*/
+    afficherPassager(vols, taille, fichierCSV);
 }
 

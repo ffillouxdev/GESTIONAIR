@@ -114,6 +114,8 @@ void generationTabRetard(int *heureActuelle, int taille, Vol *vols){
 }
 
 void OptimiserPiste(Vol *vols, int taille) {
+    // Verifier si les vols ont étés reprogramme
+    // readapter les heures d'embarquement et enregistrement en fonction de l'opti
     for (int i = 1; i < taille; i++) {
         int diff = vols[i].heure_decollage - vols[i - 1].heure_decollage;
         if (diff > 120) {

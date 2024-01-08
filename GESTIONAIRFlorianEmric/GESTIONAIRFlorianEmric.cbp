@@ -31,11 +31,26 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Tri.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Tri.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="color.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="color.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="critere_recherches.h" />
 		<Unit filename="flyingplane.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="passager.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="passager.h" />

@@ -6,7 +6,6 @@
 #include <string.h>
 #include <strings.h>
 #include <ctype.h>
-
 #include "vol.h"
 
 void toLowerString(char *str);

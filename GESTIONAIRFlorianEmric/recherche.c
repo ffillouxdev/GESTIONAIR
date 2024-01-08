@@ -3,12 +3,12 @@
 void recherche_dest(const char *desti, int taille, Vol *vols) {
     int compt = 0;
 
+    printf("------------------------------------------------------------------------------------------------------------------------\n");
     printf("| Ville | Compagnie | Heure | Numerovol | Comptoir | debutEnr | FinEnr | salle | debutEmb | finEmb | EtatVol |\n");
-    printf("------------------------------------------------------------------------------------------------------------------------\n");
-    printf("------------------------------------------------------------------------------------------------------------------------\n");
 
     for (int i = 0; i < taille; i++) {
         if (strstr(vols[i].destination, desti) != NULL) {
+            printf("------------------------------------------------------------------------------------------------------------------------\n");
             printf("|    %-10s |             %-20s | %-4d | %-2d | %-2d | %-4d | %-4d | %d | %-4d | %-4d | %-17s|\n",
                     vols[i].destination,
                     vols[i].compagnie,
@@ -21,9 +21,10 @@ void recherche_dest(const char *desti, int taille, Vol *vols) {
                     vols[i].heure_debut_Embarquement,
                     vols[i].heure_fin_Embarquement,
                     vols[i].etat_vol);
-            printf("------------------------------------------------------------------------------------------------------------------------\n");
+            compt++;
         }
     }
+    printf("------------------------------------------------------------------------------------------------------------------------\n");
 
     if (compt == 0) {
         deductionRechercheDestination(1, desti, vols, taille);
@@ -33,12 +34,12 @@ void recherche_dest(const char *desti, int taille, Vol *vols) {
 void recherche_compagnie(const char *comp, int taille, Vol *vols) {
     int compt = 0;
 
+    printf("------------------------------------------------------------------------------------------------------------------------\n");
     printf("| Compagnie | Ville | Heure | Numerovol | Comptoir | debutEnr | FinEnr | salle | debutEmb | finEmb | EtatVol |\n");
-    printf("------------------------------------------------------------------------------------------------------------------------\n");
-    printf("------------------------------------------------------------------------------------------------------------------------\n");
 
     for (int i = 0; i < taille; i++) {
         if (strstr(vols[i].compagnie, comp) != NULL) {
+            printf("------------------------------------------------------------------------------------------------------------------------\n");
             printf("|             %-20s |    %-10s | %-4d | %-2d | %-2d | %-4d | %-4d | %d | %-4d | %-4d | %-17s|\n",
                     vols[i].compagnie,
                     vols[i].destination,
@@ -51,9 +52,10 @@ void recherche_compagnie(const char *comp, int taille, Vol *vols) {
                     vols[i].heure_debut_Embarquement,
                     vols[i].heure_fin_Embarquement,
                     vols[i].etat_vol);
-            printf("------------------------------------------------------------------------------------------------------------------------\n");
+            compt++;
         }
     }
+    printf("------------------------------------------------------------------------------------------------------------------------\n");
 
     if (compt == 0) {
         deductionRechercheCompagnie(comp, vols, taille);
@@ -64,13 +66,12 @@ void recherche_heurDecol(int decol, int taille, Vol *vols) {
     int compt = 0;
 
     printf("Voici les vols les plus proches que l'heure saisis \n");
+    printf("------------------------------------------------------------------------------------------------------------------------\n");
     printf("| Heure | Compagnie | Ville | Numerovol | Comptoir | debutEnr | FinEnr | salle | debutEmb | finEmb | EtatVol |\n");
-    printf("------------------------------------------------------------------------------------------------------------------------\n");
-    printf("------------------------------------------------------------------------------------------------------------------------\n");
 
     for (int i = 0; i < taille; i++) {
-        if ((vols[i].heure_decollage >= decol && (vols[i].heure_decollage - decol) <= 150) ||
-            (((vols[i].heure_decollage - decol) >= -150) && ((vols[i].heure_decollage - decol) <= 150))) {
+        if ((vols[i].heure_decollage == decol)) {
+            printf("------------------------------------------------------------------------------------------------------------------------\n");
             printf("| %-4d |             %-20s |    %-10s | %-2d | %-2d | %-4d | %-4d | %d | %-4d | %-4d | %-17s|\n",
                     vols[i].heure_decollage,
                     vols[i].compagnie,
@@ -83,15 +84,17 @@ void recherche_heurDecol(int decol, int taille, Vol *vols) {
                     vols[i].heure_debut_Embarquement,
                     vols[i].heure_fin_Embarquement,
                     vols[i].etat_vol);
-            printf("------------------------------------------------------------------------------------------------------------------------\n");
+            compt++;
         }
     }
+    printf("------------------------------------------------------------------------------------------------------------------------\n");
 
     if (compt == 0) {
         char decolChar[20];
         sprintf(decolChar, "%d", decol);
         deductionRechercheHeuresDecol(decol, vols, taille);
     }
+
 }
 
 void suggestionCorrection(const char *input, const char *suggestion) {
@@ -179,20 +182,28 @@ void deductionRechercheCompagnie(const char *saisie, Vol *vols, int taille) {
 
 
 void deductionRechercheHeuresDecol(int heuresSaisies, Vol *vols, int taille) {
-    int suggestionTrouvee = 0;
+    int compteur = 0;
+    int nbHeureSaisie; // Ajout de la déclaration de nbHeureSaisie
+
+    nbHeureSaisie = heuresSaisies; // Utilisation de la variable heuresSaisies plutôt que saisie
+    printf("\nL'heure que vous avez saisie ne correspond pas a un vol.\n\n");
 
     for (int i = 0; i < taille; i++) {
-        // Vérifier si l'heure de décollage correspond à la saisie ou se trouve dans une plage de 5 minutes
-        if (vols[i].heure_decollage == heuresSaisies ||
-            (vols[i].heure_decollage >= heuresSaisies - 5 && vols[i].heure_decollage <= heuresSaisies + 5)) {
-            // Utiliser l'heure de décollage comme suggestion
-            printf("Suggestion : %s\n", vols[i].destination); // Utiliser la destination comme suggestion
-            suggestionTrouvee = 1;
-            break;
+        if (vols[i].heure_decollage == nbHeureSaisie || (vols[i].heure_decollage >= nbHeureSaisie - 5 && vols[i].heure_decollage <= nbHeureSaisie + 5)) {
+            printf("Nous avons trouve celui-ci cependant (dans une plage de 5 minutes avant et apres) : \n");
+            printf("------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| Heure | Numero Vol | Destination |\n");
+            printf("------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| %-4d | %-2d | %-20s |\n",
+                   vols[i].heure_decollage,
+                   vols[i].numeroVol,
+                   vols[i].destination
+            );
+            printf("------------------------------------------------------------------------------------------------------------------------\n\n");
+            compteur++;
         }
     }
 
-    if (!suggestionTrouvee) {
-        printf("\nAucune suggestion de vol n'a ete trouvee pour l'heure : %d\n", heuresSaisies);
-    }
+    if (compteur == 0)
+        printf("Il n'y a pas de vols dans un intervalle de 5 minutes avant et apres.\n");
 }
