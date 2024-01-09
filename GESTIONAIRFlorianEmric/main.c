@@ -59,9 +59,9 @@ printf("                                                                        
 
 color(15,0);
 
-    char filename[50];
-    printf("Entrez le nom du fichier : ");
-    scanf("%s", &filename);
+    char filename[50] = "data_vols.csv";
+    /*printf("Entrez le nom du fichier : ");
+    scanf("%s", &filename);*/
     lireDonneesCSV(filename, vols, &taille);
     trierTab(vols, taille);
     int quitter = 0;
@@ -168,8 +168,8 @@ color(15,0);
                     afficherReprogrammation(vols, taille, heureActuelle);
                 }
                 else if(choix1 == '3'){
-                    OptimiserPiste(vols,taille);
-                    affichagePlane();
+                    //affichagePlane();
+                    OptimiserPiste(vols,taille, 600);
                 }
                 }
             }

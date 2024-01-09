@@ -4,8 +4,7 @@
 // Fonction en plus pour afficher les retards en cours avant le tri
 void afficherRetardActuel(Vol *vols, int taille, int heureActuelle){
     if ( heureActuelle >= 600 && heureActuelle <=2200 ){
-        /* on affiche seulement le numero du vol, l'heure a laquelle il est sencé décollé,
-        la compagnie, son etat de vol*/
+        /* on affiche seulement le numero du vol, l'heure a laquelle il est sencé décollé, la compagnie, son etat de vol*/
         printf("\n| Numero de vol | Heure decollage attendue | Compagnie | Etat vol |\n");
         printf("------------------------------------------------------------------------------------------\n");
         for(int i = 0; i < taille ; i++){
@@ -110,16 +109,61 @@ void generationTabRetard(int *heureActuelle, int taille, Vol *vols){
     /*afficherReprogrammation(vols, taille, *heureActuelle);*/
     trierTab(vols, taille);
     /*afficherTabVol(vols, taille, *heureActuelle);*/
-    OptimiserPiste(vols, taille);
+    OptimiserPiste(vols, taille, *heureActuelle);
 }
 
-void OptimiserPiste(Vol *vols, int taille) {
+void OptimiserPiste(Vol *vols, int taille, int heureActuelle){
+    char choix[3];
+    int compt = 0, i = 0, j = 0;
     // Verifier si les vols ont étés reprogramme
-    // readapter les heures d'embarquement et enregistrement en fonction de l'opti
+    for(j = 0; j < taille ;j++){
+        if(strcmp(vols[j].etat_vol, "Reprogramme") == 0)
+            compt++;
+    }
+
+    if (compt == 0){
+        reprogrammationRetard(vols, taille, heureActuelle);
+    }
+
+    // readapte les heures de decollage, d'embarquement et enregistrement en fonction de l'optimisation
     for (int i = 1; i < taille; i++) {
         int diff = vols[i].heure_decollage - vols[i - 1].heure_decollage;
         if (diff > 120) {
             vols[i].heure_decollage = readapteHeures(vols[i - 1].heure_decollage + 5, 0);
         }
+    }
+
+    printf("Voulez vous affichez tous les vols ? (0ui/Non)\n");
+    scanf("%s", &choix);
+
+    if (strcmp(choix, "Oui") == 0) {
+        if ( heureActuelle >= 600 && heureActuelle <=2200){
+        printf("------------------------------------------------------------------------------------------------------------------------\n");
+        printf("\n| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
+
+        while(i < taille){
+            if(vols[i].heure_decollage >= heureActuelle){
+                printf("------------------------------------------------------------------------------------------------------------------------\n");
+                printf("| %-4d | %-2d |             %-20s |    %-10s | %-2d | %-4d | %-4d | %d | %-4d | %-4d | %-17s|\n",
+                    vols[i].heure_decollage,
+                    vols[i].numeroVol,
+                    vols[i].compagnie,
+                    vols[i].destination,
+                    vols[i].num_Comptoir_Enregistrement,
+                    vols[i].heure_debut_Enregistrement,
+                    vols[i].heure_fin_Enregistrement,
+                    vols[i].salle_embarquement,
+                    vols[i].heure_debut_Embarquement,
+                    vols[i].heure_fin_Embarquement,
+                    vols[i].etat_vol);
+            }
+            i++;
+        }
+            printf("------------------------------------------------------------------------------------------------------------------------\n");
+        }else{
+            printf("Les vols ne sont compris qu'entre 6h (600) et 22h (2200) dut au couvre feu !\n");
+        }
+    } else if(strcmp(choix, "Non") == 0){
+        printf("Au revoir\n");
     }
 }

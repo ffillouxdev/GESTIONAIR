@@ -61,6 +61,8 @@ void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille) {
    }
 }
 
+
+// (TRI A BULLE)
 void trierTab(Vol *vols, int taille){
     // for qui tri les vols (lignes du csv) par heure de décollage
     for (int i = 0; i < taille - 1; i++) {
@@ -79,11 +81,13 @@ void trierTab(Vol *vols, int taille){
 void afficherTabVol(Vol *vols, int taille, int heureActuelle){
     if ( heureActuelle >= 600 && heureActuelle <=2200){
         // on va afficher les vols qui sont dans les 3 heures qui suivent l'heure actuelle
-        printf("\n| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
+
         printf("------------------------------------------------------------------------------------------------------------------------\n");
+        printf("\n| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
         int i = 0;
         while(i < taille){
             if(vols[i].heure_decollage >= heureActuelle && (vols[i].heure_decollage <= (heureActuelle + 300))){
+                printf("------------------------------------------------------------------------------------------------------------------------\n");
                 printf("| %-4d | %-2d |             %-20s |    %-10s | %-2d | %-4d | %-4d | %d | %-4d | %-4d | %-17s|\n",
                     vols[i].heure_decollage,
                     vols[i].numeroVol,
@@ -96,12 +100,12 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
                     vols[i].heure_debut_Embarquement,
                     vols[i].heure_fin_Embarquement,
                     vols[i].etat_vol);
-                    printf("------------------------------------------------------------------------------------------------------------------------\n");
             }
             i++;
         }
+            printf("------------------------------------------------------------------------------------------------------------------------\n");
     }else{
-        printf("Les vols ne sont compris qu'entre 6h (600) et 22h (2200) dut au couvre feu !");
+        printf("Les vols ne sont compris qu'entre 6h (600) et 22h (2200) dut au couvre feu !\n");
     }
 
 }
