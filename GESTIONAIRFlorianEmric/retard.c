@@ -72,15 +72,13 @@ void reprogrammationRetard(Vol *vols, int taille, int heureActuelle){
     }
 
     // for qui permet d'espacer les vols qui n'ont pas 5mins d'intervalle (la piste n'est pas forcement optimisé)
-    for(int j = 1; j < taille; j++){
-        if((vols[j].heure_decollage - vols[j - 1].heure_decollage) <= 5){
-            vols[j].heure_decollage = vols[j - 1].heure_decollage + 5; // rajoute 5min pour avoir un intervalle de 5min entre les vols
-        }
-    }
+    trierTab(vols, taille);
+    verifier5minIntervalles(taille, vols);
 }
 
-//Fonction qui remet 5min a tout le monde si des vols n'ont pas un intervalle correct
+    // for qui permet d'espacer les vols qui n'ont pas 5mins d'intervalle (la piste n'est pas forcement optimisé)
 
+//Fonction qui remet 5min a tout le monde si des vols n'ont pas un intervalle correct
 void afficherReprogrammation(Vol *vols, int taille, int heureActuelle){
     if ( heureActuelle >= 600 && heureActuelle <=2200 ){
         /* on affiche seulement le numero du vol, l'heure a laquelle il est sencé décollé,
@@ -89,7 +87,7 @@ void afficherReprogrammation(Vol *vols, int taille, int heureActuelle){
         printf("------------------------------------------------------------------------------------------\n");
         for(int i = 0; i < taille ; i++){
         if (vols[i].heure_decollage >= heureActuelle && strcmp(vols[i].etat_vol, "A l'heure") == 1) {
-                printf("| %d | %d | %s | %s |\n",
+                printf("|      %-7d  |           %-10d     | %-16s  | %-15s |\n",
                        vols[i].numeroVol,
                        vols[i].heure_decollage,
                        vols[i].compagnie,
@@ -112,12 +110,14 @@ void generationTabRetard(int *heureActuelle, int taille, Vol *vols){
     OptimiserPiste(vols, taille, *heureActuelle);
 }
 
+
 void OptimiserPiste(Vol *vols, int taille, int heureActuelle){
-    char choix[3];
-    int compt = 0, i = 0, j = 0;
+    char choix[3], tempChar[100];
+    int k, compt = 0, i, temp, trouve = 0;
+
     // Verifier si les vols ont étés reprogramme
-    for(j = 0; j < taille ;j++){
-        if(strcmp(vols[j].etat_vol, "Reprogramme") == 0)
+    for(k = 0; k < taille ;k++){
+        if(strcmp(vols[k].etat_vol, "Reprogramme") == 0)
             compt++;
     }
 
@@ -125,11 +125,49 @@ void OptimiserPiste(Vol *vols, int taille, int heureActuelle){
         reprogrammationRetard(vols, taille, heureActuelle);
     }
 
-    // readapte les heures de decollage, d'embarquement et enregistrement en fonction de l'optimisation
+    // En fonction de l'optimisation, les vols reprogrammes doivent etre optimiser sur des creneaux ou les vols sont annules
     for (int i = 1; i < taille; i++) {
-        int diff = vols[i].heure_decollage - vols[i - 1].heure_decollage;
-        if (diff > 120) {
-            vols[i].heure_decollage = readapteHeures(vols[i - 1].heure_decollage + 5, 0);
+        if(strcmp(vols[i].etat_vol, "Reprogramme") == 0){
+            // trouve le vol annule le plus proche apres l'horaire de decollage du vol reprogramme
+            for(k = i + 1; k < taille; k++){
+                if(strcmp(vols[k].etat_vol, "Annule") == 0 && trouve < 1){
+                    trouve++;
+
+                    // l'optimisation se fairas que si la diference du vol repgramme et du vol annule est inferieur a 2h
+                    if(vols[i].heure_decollage - vols[k].heure_decollage <= 200){
+                        temp = vols[i].heure_decollage;
+                        vols[i].heure_decollage = vols[k].heure_decollage;
+                        vols[k].heure_decollage = temp;
+                        temp = vols[i].numeroVol;
+                        vols[i].numeroVol = vols[k].numeroVol;
+                        vols[k].numeroVol = temp;
+                        strcpy(tempChar, vols[i].destination);
+                        strcpy(vols[i].destination, vols[k].destination);
+                        strcpy(vols[k].destination, tempChar);
+                        temp = vols[i].num_Comptoir_Enregistrement;
+                        vols[i].num_Comptoir_Enregistrement = vols[k].num_Comptoir_Enregistrement;
+                        vols[k].num_Comptoir_Enregistrement = temp;
+                        temp = vols[i].salle_embarquement;
+                        vols[i].salle_embarquement = vols[k].salle_embarquement;
+                        vols[k].salle_embarquement = temp;
+                        strcpy(tempChar, vols[i].etat_vol);
+                        strcpy(vols[i].etat_vol, vols[k].etat_vol);
+                        strcpy(vols[k].etat_vol, tempChar);
+
+
+                    }
+                }
+            }
+            trouve = 0;
+            for (i = 0; i < taille; i++) {
+                if (strcmp(vols[i].etat_vol, "Annule") == 0) {
+                    for (int j = i; j < taille - 1; j++) {
+                        vols[j] = vols[j + 1];
+                    }
+                    taille--;
+                    i--;
+                }
+            }
         }
     }
 
@@ -137,6 +175,7 @@ void OptimiserPiste(Vol *vols, int taille, int heureActuelle){
     scanf("%s", &choix);
 
     if (strcmp(choix, "Oui") == 0) {
+        trierTab(vols, taille);
         if ( heureActuelle >= 600 && heureActuelle <=2200){
         printf("------------------------------------------------------------------------------------------------------------------------\n");
         printf("\n| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
@@ -165,5 +204,13 @@ void OptimiserPiste(Vol *vols, int taille, int heureActuelle){
         }
     } else if(strcmp(choix, "Non") == 0){
         printf("Au revoir\n");
+    }
+}
+
+void verifier5minIntervalles(int taille, Vol * vols){
+    for(int j = 1; j < taille; j++){
+        if((vols[j].heure_decollage - vols[j - 1].heure_decollage) <= 5){
+            vols[j].heure_decollage = vols[j - 1].heure_decollage + 5; // rajoute 5min pour avoir un intervalle de 5min entre les vols
+        }
     }
 }

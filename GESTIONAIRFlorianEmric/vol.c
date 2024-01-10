@@ -1,6 +1,7 @@
 /*modules*/
 #include "vol.h"
 #include "passager.h"
+#include "retard.h"
 
 
 // Fonction pour lire les donn�es du fichier CSV et remplir le tableau de struct
@@ -58,6 +59,8 @@ void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille) {
         (*taille)++;
     }
     fclose(fichier);
+    trierTab(vols, *taille);
+    verifier5minIntervalles(*taille, vols);
    }
 }
 
@@ -86,7 +89,7 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
         printf("\n| Heure decollage | Numero de vol | Compagnie | Destination | Numero comptoir d'enregistrement | Heure debut enregistrement | Heure fin enregistrement| Salle d'embarquement |Heure debut embarquement| Heure fin embarquement | Etat vol |\n");
         int i = 0;
         while(i < taille){
-            if(vols[i].heure_decollage >= heureActuelle && (vols[i].heure_decollage <= (heureActuelle + 300))){
+            if(vols[i].heure_decollage >= heureActuelle /*&& (vols[i].heure_decollage <= (heureActuelle + 300))*/){
                 printf("------------------------------------------------------------------------------------------------------------------------\n");
                 printf("| %-4d | %-2d |             %-20s |    %-10s | %-2d | %-4d | %-4d | %d | %-4d | %-4d | %-17s|\n",
                     vols[i].heure_decollage,

@@ -21,7 +21,7 @@ int main()
     tm_info = localtime(&t);
 
     // Calculez l'heure actuelle en format "minuteminuteheureheure"
-    int heureActuelle = tm_info->tm_hour * 100 + tm_info->tm_min;
+    int heureActuelle = 600;//tm_info->tm_hour * 100 + tm_info->tm_min;
     color(13,0);
     Vol vols[TAILLE_TAB];
     int taille = 0;
@@ -171,10 +171,9 @@ color(15,0);
                     //affichagePlane();
                     OptimiserPiste(vols,taille, 600);
                 }
-                }
             }
 
-         else if (choix == '5') {
+         }else if (choix == '5') {
                     const char plane[] =
                 "\n"
                 "                                      /\\                                                 _\n"

@@ -14,8 +14,9 @@ void afficherRetardActuel(Vol *vols, int taille, int heureActuelle);
 void reprogrammationRetard(Vol *vols, int taille, int heureActuelle);
 int recupDonneesRetard(const char *etat_vol);
 int readapteHeures(int heure_decollage, int retard);
+void verifier5minIntervalles(int taille, Vol * vols);
 void afficherReprogrammation(Vol *vols, int taille, int heureActuelle);
 void generationTabRetard(int *heureActuelle, int taille, Vol *vols);
 void OptimiserPiste(Vol *vols, int taille, int heureActuelle);
-
+void supprimerLigneParNumVol(int numVol, Vol * vols, int taille);
 #endif // RETARD_H_INCLUDED
