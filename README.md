@@ -1,92 +1,60 @@
-# GESTIONAIR
+# **GESTIONAIR**
+
+Bienvenue sur GestionAir, l'application en console qui permet la gestion de vols de l'aéroport Grenoble Alpes Isère.
+
+Cette application a été développée en langage C en réponse aux besoins du Directeur de l'aéroport Grenoble Alpes Isère, tel que spécifié dans le cahier des charges du projet GESTION'AIR, SAE.S01.S02.2023.
+
+Client : Directeur de l'aéroport Grenoble Alpes Isère
 
 
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+## **Ajouter les fichiers au git bash**
 ```
 cd existing_repo
+git init
 git remote add origin https://forge.univ-lyon1.fr/p2203403/gestionair.git
 git branch -M main
-git push -uf origin main
+git add .
+git commit -m "Votre commit"
+git push -f origin main
 ```
 
-## Integrate with your tools
+### **Comment installer et executer le projet**
 
-- [ ] [Set up project integrations](https://forge.univ-lyon1.fr/p2203403/gestionair/-/settings/integrations)
+Pour ce projet nous avons utilisé CodeBlocks commme IDE pour la programmation et la compilation. 
 
-## Collaborate with your team
+Pour télécharger mon projet:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+**1.** ```bash git clone https://forge.univ-lyon1.fr/p2203403/gestionair.git```
 
-## Test and Deploy
+**2.** Dans CodeBlocks ou dans le dossier, ouvrez le
+fichier .cbp  pour ouvrir directement le projet.
 
-Use the built-in continuous integration in GitLab.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
+# **Infos sur l'application**
 
-# Editing this README
+### **Structure du Projet**
+Le projet est organisé de manière à faciliter la compréhension et la maintenance :
+- **Sources :** Contient les fichiers C où se trouve les programmes. 
+- **Header :** Contient les fichiers d'en-tête.
+- **data_vols.csv :** Le fichier de données.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### **Format des Données de la BD**
+Les informations nécessaires à l'application sont fournies dans un fichier CSV avec un format spécifique, comprenant les détails de chaque vol, y compris les passagers associés.
 
-## Name
-Choose a self-explaining name for your project.
+### **Tableau de structures**
+Pour simplifier la manipulation des éléments contenu dans le csv, nous avons créé un tableau de struct qui regroupe les données du vol et de la liste des passagers du vols. 
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### **Fonctionnalités Principales**
+L'application offre plusieurs fonctionnalités essentielles pour la gestion efficace des vols commerciaux au départ de l'aéroport. Ces fonctionnalités incluent :
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+**Affichage des Informations sur les Vols** : Présentation des détails des vols triés par ordre croissant sur l'heure de décollage. Les informations comprennent l'heure de décollage, le numéro de vol, le nom de la compagnie, la destination, le comptoir d'enregistrement, l'heure de debut d'enregistrement et celle de fin, la salle d'embarquement, l'heure de debut d'embarquement et celle de fin, l'état du vol, etc.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+**Recherche de Vol** : Possibilité de rechercher un vol en utilisant le nom de la compagnie, la destination ou l'heure de décollage. ces fonctions possèdent une gestion d'erreur de l'utilisateur.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+**Affichage des Passagers** dans les Salles d'Embarquement : Présentation de la liste des passagers dans les salles d'embarquement, triée sur l'ordre d'embarquement basé sur l'âge du passager, le prix du billet, et en cas d'égalité, l'ordre alphabétique basé sur le nom.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+**Gestion des Retards et des Annulations** : Traitement des retards en tentant de reprogrammer un vol retardé au plus tôt tout en respectant les contraintes de sécurité telles que le délai de 5 minutes minimum entre deux décollages et le couvre-feu de 6h à 22h. Possibilité d'annulation de vols qui ne peuvent pas décoller avant 22h.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+**Maximisation de l'Utilisation de la Piste (Bonus)** : Fonctionnalité qui vises à maximiser l'utilisation de la piste en reprogrammant les vols retardés pour maximiser le nombre de décollages sur la journée.
