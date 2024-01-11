@@ -8,6 +8,7 @@ int taille_tab(const char *chaine) {
     return taille;
 }
 
+
 void inserer(int tab[], int i)
 {
     char val = tab[i];

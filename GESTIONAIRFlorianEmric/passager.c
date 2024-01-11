@@ -1,13 +1,10 @@
 #include "passager.h"
-#include "tri.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include "tri.h" // Recupration du tri selection decroissant
+ // Creation d'une structure qui va nous servir  recuperer la date du jour
 
-// 4383 jours sparent la date du rendu et cette mme date il y a 12 ans; attention aux annes bissextiles
-
-
+/*
+Cette fonction cherche savoir si une annee est bissextile ou non, 1 si elle est bissextile 0 si elle ne l'est pas
+*/
 int annee_bissextile(int annee) {
     if ((annee % 4 == 0 && annee % 100 != 0) || (annee % 400 == 0)) {
         return 1;
@@ -16,8 +13,11 @@ int annee_bissextile(int annee) {
     }
 }
 
+/*
+Cette fonction renvoi le nombre de jours du mois
+*/
 int nombre_jour_mois(int mois, int annee) {
-    if (mois == 2 && annee_bissextile(annee)) {
+    if (mois == 2 && annee_bissextile(annee)) { // Cas d'un fvrier d'une anne bissextile
         return 29;
     } else if (mois == 2) {
         return 28;
@@ -28,53 +28,65 @@ int nombre_jour_mois(int mois, int annee) {
     }
 }
 
+/*
+ Cette fonction renvoie le nombre de jours qui separe les 2 jours d'une date en fonction du mois et de l'annee
+*/
 int nombre_jour(int jour, int mois, int annee, int day) {
     int diff;
     diff = day - jour;
     return diff;
 }
 
-// Fonction pour changer deux dates dans le tableau
-void echangerDates(double *date1, double *date2) {
-    double temp = *date1;
-    *date1 = *date2;
-    *date2 = temp;
+/*
+ Cette fonction renvoie 0 si k existe dj dans le tableau et 1 si il n'existe pas
+*/
+int unique1(int tab[], int taille, int k){
+    for (int i = 0; i < taille; i++){
+        if (tab[i] == k){
+            return 0;
+        }
+    }
+    return 1;
 }
 
-void echangerIndices(int *index1, int *index2) {
-    int temp = *index1;
-    *index1 = *index2;
-    *index2 = temp;
-}
-
+/*
+ Cette fonction permet l'affichage des passagers
+*/
 void afficherPassager(Vol *vols, int taille, const char *nomFichier) {
     lireDonneesCSV(nomFichier, vols, &taille);
     int n_vol;
     printf("Choisissez le vol pour lequel vous voulez afficher la liste de passager : ");
     scanf("%d",&n_vol);
     printf("\nVol %d\n", n_vol);
-    printf("\n| Nom          | Prenom            |Date Naissance| N  siege |   Prix   |\n");
+    printf("\n-------------------------------------------------------------------------\n");
+    printf("| Nom          | Prenom            |Date Naissance| N  siege |   Prix   |\n");
     printf("-------------------------------------------------------------------------\n");
 
-    int i, taille2, j, k, day, month, year;
+    int i, j, k, day, month, year, cpt = 0, temp2;
     double cpt_month, cpt_day, cpt_year, somme_total;
-    double temp[1];
     time_t t = time(NULL);
 
     // Convertir le temps actuel en structure tm
+
     struct tm *timeinfo = localtime(&t);
 
-    int annee = timeinfo->tm_year + 1900;
-    int mois = timeinfo->tm_mon + 1;
+    int annee = timeinfo->tm_year + 1900;   // Le compteur d'annee commence  l'anne 1900
+    int mois = timeinfo->tm_mon + 1;    // Le compteur du mois commence  0 pour le mois janvier
     int jour = timeinfo->tm_mday;
 
-    for (i = 1; i != n_vol; i++) {}
+    for (i = 1; i != n_vol; i++) { // Recherche du numero de vol
+    }
     i -= 1;
-    taille2 = taille_tab(vols[i].passager[j].date_naiss);
-    double tab[100];
-    int indices[100];
-    for (j = 0; j < taille2; j++) {
-        sscanf(vols[i].passager[j].date_naiss, "%d/%d/%d", &day, &month, &year);
+    for (j=0; vols[i].passager[j].prix_billet != 0; j++) {
+        cpt += 1;
+    }
+
+    double tab[cpt],tab2[cpt];
+    int l =0;
+    int m =0;
+
+    for (j = 0; j < cpt; j++) {
+        sscanf(vols[i].passager[j].date_naiss, "%d/%d/%d", &day, &month, &year);    // Recupration de la date sous format DD/MM/YYYY
         cpt_year = 365.25 * (annee - year);
         cpt_month = 0;
 
@@ -83,148 +95,163 @@ void afficherPassager(Vol *vols, int taille, const char *nomFichier) {
         }
 
         cpt_day = nombre_jour(day, month, year, jour);
-        somme_total = cpt_day + cpt_month + cpt_year;
-        tab[j] = somme_total;
-        indices[j] = j;
-    }
-
-    for (j = 0; j < taille2 - 1; j++) {
-        int min_index = j;
-        for (k = j + 1; k < taille2; k++) {
-            if (tab[k] < tab[min_index] ||
-                (tab[k] == tab[min_index] &&
-                strcmp(vols[i].passager[indices[k]].nom, vols[i].passager[indices[min_index]].nom) < 0)) {
-                min_index = k;
-            }
-        }
-
-        echangerDates(&tab[min_index], &tab[j]);
-        echangerIndices(&indices[min_index], &indices[j]);
-    }
-
-    int i_tab2 = 0;
-    int i_tab3 = 0;
-    double tab2[10], tab3[10];
-
-    for (j = 0; j < taille2; j++) {
-        if (tab[j] < 4383) {
-            tab2[i_tab2] = vols[i].passager[indices[j]].prix_billet;
-            i_tab2++;
+        somme_total = cpt_day + cpt_month + cpt_year;       // Calcul du nombre total de jours separant la date du jour et celle du passager
+        if (somme_total < 4383){
+            tab[l] = vols[i].passager[j].prix_billet;       // Passager qui ont moins de 12 ans
+            l += 1;
         }
         else {
-            tab3[i_tab3] = vols[i].passager[indices[j]].prix_billet;
-            i_tab3++;
+            tab2[m] = vols[i].passager[j].prix_billet;      // Passager qui ont 12 ans ou plus
+            m += 1;
         }
     }
 
-    tri_selection_dec(tab2, i_tab2);
-    tri_selection_dec(tab3, i_tab3);
+    tri_selection_dec(tab,cpt);
+    tri_selection_dec(tab2,cpt);
 
-    for (j = 0; j < i_tab2 - 1; j++) {
-        if (tab2[j] == tab2[j+1]) {
-            k = j;
-            while (k < i_tab2 - 1 && vols[i].passager[indices[k]].prix_billet == tab2[j]) {
-                if (strcmp(vols[i].passager[indices[k]].nom, vols[i].passager[indices[k+1]].nom) > 0) {
-                    temp[0] = tab2[j];
-                    tab2[j] = tab2[j+1];
-                    tab2[j+1] = temp[0];
-                    echangerIndices(&indices[k], &indices[k+1]);
-                }
-                k++;
+    int cpt2 = 0, cpt3 = 0;
+
+    for (j = 0; tab[j] > 0.1; j++){
+        cpt2 += 1;
+    }
+
+    for (j = 0; tab2[j] > 0.1; j++){
+        cpt3 += 1;
+    }
+
+    int indice[cpt2], indice2[cpt3];
+    int n=0;
+
+    for(j=0; j<cpt; j++){
+        for (k=j; k<cpt; k++){
+            if ( vols[i].passager[k].prix_billet == tab[j] && n < cpt2 && unique1(indice, n, k) == 1 ){     // Recupraion des indices des passagers qui correspondent au tableau trie
+                indice[n]= k;
+                n += 1;
             }
         }
     }
-    j = 0;
-    for (j=0;j < i_tab3 - 1; j++) {
-        if (tab3[j] == tab3[j+1]) {
-            k = j;
-            while (k < i_tab3 - 1 && vols[i].passager[indices[k]].prix_billet == tab3[j]) {
-                if (strcmp(vols[i].passager[indices[k]].nom, vols[i].passager[indices[k+1]].nom) > 0) {
-                    echangerIndices(&indices[k], &indices[k+1]);
-                }
-                k++;
+
+    n = 0;
+    for(j=0; j<cpt; j++){
+        for (k=0; k<cpt; k++){
+            if ( vols[i].passager[k].prix_billet == tab2[j] && n < cpt3 &&  unique1(indice2, n, k) == 1){   // Recupraion des indices des passagers qui correspondent au tableau trie
+                indice2[n]= k;;
+                n += 1;
             }
         }
     }
-    for (j=0; j<i_tab2; j++){
-        for (k=0; k< taille2; k++){
-            if (vols[i].passager[indices[k]].prix_billet == tab2[j] && vols[i].passager[indices[k]].prix_billet != 0 && tab2[j] != tab2[j+2]){
-                printf("|  %-10s  |      %-11s  |  %s  |  %-6d  |  %.2f  |\n",vols[i].passager[indices[k]].nom,
-                vols[i].passager[indices[k]].prenom,
-                vols[i].passager[indices[k]].date_naiss,
-                vols[i].passager[indices[k]].numero_siege,
-                vols[i].passager[indices[k]].prix_billet );
+
+    /*strcmp permet la comparaison de 2 chaines de caractres,
+    elle renvoi 1 si la 1ere est aprs dans l'ordre alphabtique, 0 si elles sont identiques et -1 si la 1ere la 1ere est a dans l'ordre alphabtique */
+
+
+    for (j=0;j < cpt2-1; j++) {
+        if (vols[i].passager[indice[j]].prix_billet == vols[i].passager[indice[j+1]].prix_billet) {     // Tri en fonction des noms si les prix des billets sont egaux
+           if (strcmp(vols[i].passager[indice[j]].nom, vols[i].passager[indice[j+1]].nom) > 0) {
+                temp2 = indice[j];
+                indice[j] = indice[j+1];
+                indice[j+1] = temp2;
             }
         }
     }
-    for (j=0; j<i_tab3; j++){
-        for (k=0; k< taille2; k++){
-            if (vols[i].passager[indices[k]].prix_billet == tab3[j] && vols[i].passager[indices[k]].prix_billet != 0 && tab3[j] != tab3[j+1]){
-                printf("|  %-10s  |      %-11s  |  %s  |  %-6d  |  %.2f  |\n",vols[i].passager[indices[k]].nom,
-                vols[i].passager[indices[k]].prenom,
-                vols[i].passager[indices[k]].date_naiss,
-                vols[i].passager[indices[k]].numero_siege,
-                vols[i].passager[indices[k]].prix_billet );
+
+    for (j=0;j < cpt3-1; j++) {
+        if (vols[i].passager[indice2[j]].prix_billet == vols[i].passager[indice2[j+1]].prix_billet) {   // Tri en fonction des noms si les prix des billets sont egaux
+           if (strcmp(vols[i].passager[indice2[j]].nom, vols[i].passager[indice2[j+1]].nom) > 0) {
+                temp2 = indice2[j];
+                indice2[j] = indice2[j+1];
+                indice2[j+1] = temp2;
             }
         }
     }
-    printf("\n\n\n");
+
+    for (j=0;j < cpt2-1; j++) {
+        if (strcmp(vols[i].passager[indice[j]].nom, vols[i].passager[indice[j+1]].nom)== 0 && vols[i].passager[indice[j]].prix_billet == vols[i].passager[indice[j+1]].prix_billet) {
+           if (strcmp(vols[i].passager[indice[j]].prenom, vols[i].passager[indice[j+1]].prenom) > 0) { // Tri en fonction des prenoms si les noms sont les memes
+                temp2 = indice[j];
+                indice[j] = indice[j+1];
+                indice[j+1] = temp2;
+            }
+        }
+    }
+
+    for (j=0;j < cpt3-1; j++) {
+        if (strcmp(vols[i].passager[indice2[j]].nom, vols[i].passager[indice2[j+1]].nom)== 0 && vols[i].passager[indice2[j]].prix_billet == vols[i].passager[indice2[j+1]].prix_billet) {
+           if (strcmp(vols[i].passager[indice2[j]].prenom, vols[i].passager[indice2[j+1]].prenom) > 0) {    // Tri en fonction des prenoms si les noms sont les memes
+                temp2 = indice2[j];
+                indice2[j] = indice2[j+1];
+                indice2[j+1] = temp2;
+            }
+        }
+    }
+
+    for (j=0; j<cpt2; j++){
+        printf("|  %-10s  |      %-11s  |  %s  |  %-6d  |  %.2f  |\n",vols[i].passager[indice[j]].nom, // Affichage des passagers de moins de 12 ans
+                vols[i].passager[indice[j]].prenom,
+                vols[i].passager[indice[j]].date_naiss,
+                vols[i].passager[indice[j]].numero_siege,
+                vols[i].passager[indice[j]].prix_billet );
+
+    }
+
+    for (j=0; j<cpt3; j++){
+        printf("|  %-10s  |      %-11s  |  %s  |  %-6d  |  %.2f  |\n",vols[i].passager[indice2[j]].nom, // Affichage des passagers de 12 ans ou plus
+                vols[i].passager[indice2[j]].prenom,
+                vols[i].passager[indice2[j]].date_naiss,
+                vols[i].passager[indice2[j]].numero_siege,
+                vols[i].passager[indice2[j]].prix_billet );
+
+    }
+
     printf("-------------------------------------------------------------------------\n");
-    char nom[10];
+
+    char nom[20], prenom[20];
+    int resultat[cpt];
+    int trouver = 0, trouver2 = 0;
 
     printf("Saisir le Nom souhaite : ");
     scanf("%s", &nom);
-    printf("\n\n");
-    for (j=0;j < taille; j++ ){
-        if (strcmp(vols[i].passager[j].nom, nom) == 0){
+    printf("\n");
+
+    k=0;
+
+    for (j=0;j < cpt; j++ ){
+        if (strcmp(vols[i].passager[j].nom, nom) == 0){     // Recherche du nom rentre
             printf("|  %-10s  |      %-11s  |  %s  |  %-6d  |  %.2f  |\n",vols[i].passager[j].nom,
                 vols[i].passager[j].prenom,
                 vols[i].passager[j].date_naiss,
                 vols[i].passager[j].numero_siege,
                 vols[i].passager[j].prix_billet );
+            trouver += 1;
+            resultat[k] = j;
+            k += 1;
         }
     }
 
-    /*const char plane[] =
-        "\n"
-        "                                      /\\                                                 _\n"
-        "                                     /  \\                                               / |\n"
-        "                                    /    \\                                             /  |\n"
-        "                                   /      \\          /\\                    __________ /   |__________\n"
-        "                                  /        \\        /  \\                   \\--------_|    |_--------/\n"
-        "                                 /          \\|\\____/____\\____________/-------------/       |_________________________/|\n"
-        "                                /            \\\\-----||-------||-----                     /--||----------||-----------/\n"
-        "                               /              \\  /(_)(_)  \\(_)(_) (_____________________/ (_)(_)      (_)(_)\n"
-        "                              /                \\/          \\\n"
-        "                             /                              \\               /\\\n"
-        "                  /\\        /                                \\             /  \\                  /\\\n"
-        "                 /  \\      /                                  _---_       /    \\    /\\          /  \\\n"
-        "                /    \\    /                                  |     |    _/__    \\  /  \\        /    \\\n"
-        "               /      \\  /                                  _|     |_  |    |____\\/    \\      /      \\\n"
-        "              /        \\/                                  |         | |         |      \\    /        \\\n"
-        "   /\\        /                                             |         |/|         |       \\  /          \\\n"
-        "  /  \\      /                                           ___|         |_|         |____    \\/            \\\n"
-        " /    \\    /                   _______                 |   |         |           |    |                  \\\n"
-        "/      \\  /                   |       |                |   |         |           |    |                   \\\n"
-        "        \\/            __--__  |       |                |   |         |           |    |                    \\\n"
-        "                  ___|      |_|       |                |   |         |           |    |                     \\\n"
-        "     _______     |            |       |            ____|__ |         |           |    |                      \\\n"
-        "    |       |    |            |       |__         |       ||         |           |    |\n"
-        "____|       |    |            |          |_______/        ||         |           |    |\n"
-        "    |       |    |            |          |       |        ||         |           |    |  ___________\n"
-        "    |       |____|            |          |       |        ||         |           |____|_|           |\n"
-        "    |            |            |          |       |        ||         |           |                  |        |\n"
-        "    |            |            |          |       |        ||         |           |                  |       _|_\n"
-        "    |            |            |          |       |        ||         |           |                  |______|   |\n"
-        "    |            |            |          |       |        ||         |           |                         |   |\n"
-        "    |            |            |          |       |        ||         |           |                         |   |\n"
-        "    |            |            |          |       |                                                        _|   |_\n";
-    printf("%s", plane);*/
 
+    printf("\n");
+    if (trouver == 0){ // Cas ou le nom n'est pas repertori dans la base de donnees
+        printf("Le nom '%s' est introuvable pour ce vol.\n\n", nom);
+    }
+    else if (trouver > 1){ // Cas ou il y aurait plusieurs personnes avec le meme nom
+        printf("Entrer un Prenom : ");
+        scanf("%s",&prenom);
+        printf("\n");
+        for (j=0;j < k; j++ ){
+            if (strcmp(vols[i].passager[resultat[j]].prenom, prenom) == 0){     // Recherche du prenom rentre
+                printf("|  %-10s  |      %-11s  |  %-4s  |  %-6d  |  %.2f  |\n",vols[i].passager[resultat[j]].nom,
+                    vols[i].passager[resultat[j]].prenom,
+                    vols[i].passager[resultat[j]].date_naiss,
+                    vols[i].passager[resultat[j]].numero_siege,
+                    vols[i].passager[resultat[j]].prix_billet );
+                trouver2 += 1;
+            }
+        }
+        printf("\n");
+        if (trouver2 == 0){     // Cas ou le prnom n'est pas repertorier dans la base de donnees
+            printf("Le prenom '%s' est introuvable pour ce vol.\n\n", prenom);
+        }
+    }
 }
-
-
-
-
 
 

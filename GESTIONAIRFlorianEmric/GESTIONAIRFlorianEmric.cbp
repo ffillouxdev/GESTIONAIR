@@ -43,7 +43,6 @@
 		<Unit filename="color.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="critere_recherches.h" />
 		<Unit filename="flyingplane.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

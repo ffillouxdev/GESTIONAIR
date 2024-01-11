@@ -1,12 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
+#include "flyingplane.h"
 
+/*
+Fonction qui permet de se deplacer dans l'espace (x et y) et grace a la biblio windows.h
+*/
 void gotoxy(int x, int y) {
     COORD coord = {x, y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
+/*
+la fonction qui permet de faire
+*/
 void affichagePlane() {
     const char ligne1[] = "            |\\\n";
     const char ligne2[] = "            | \\___________\n";
@@ -21,6 +25,8 @@ void affichagePlane() {
     const char road[] = "\n--------------------------------------------------------------------------------------------------------------------------------------------------------\n";
 
     int screenWidth = 110;
+    int roadLength = screenWidth - 1;
+
     while (1) {
         system("cls");
         gotoxy(x, y);
@@ -34,12 +40,12 @@ void affichagePlane() {
         gotoxy(x, y + 4);
         x++;
         if (y == 5){
-            printf("%s", ligne5);
+            printf("%.*s", roadLength, ligne5);
             printf("%s", road);
         }
 
         if (y == 4){
-            printf("%s", ligne6);
+            printf("%.*s", roadLength, ligne6);
             printf("\n%s", road);
         }
         if (y == 3){

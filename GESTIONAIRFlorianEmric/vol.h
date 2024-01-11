@@ -1,29 +1,31 @@
 #ifndef VOL_H_INCLUDED
 #define VOL_H_INCLUDED
 
+// Inclusion des bibliotheques standard C
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-
-/*Modules*/
+// Preprocesseurs
 #define TAILLE_TAB 100
 #define MAX_PASSAGERS 500
 
 
-// Definition de la structure passager
+/* Structure Passager correspond a tout les attributs de la derniere chaine caractere entre
+"" d'une ligne du csv correspond a un vol*/
 struct Passager
 {
     char nom[30];
     char prenom[30];
-    char date_naiss[11]; // au format jj/mm/aaaa
+    char date_naiss[10]; // au format jj/mm/aaaa
     int numero_siege;
     double prix_billet; //prise en compte des centimes
 };
 
+// alias de struct pour eviter d'ecrire struct Passager
 typedef struct Passager Passager;
 
-
+//Structure Vol correspond a tout les attributs d'une ligne du csv correspond a un vol
 struct Vol
 {
     int numeroVol;
@@ -40,12 +42,13 @@ struct Vol
     Passager passager[20];
 };
 
+// alias de struct pour eviter d'ecrire struct Vol
 typedef struct Vol Vol;
 
 // Fonctions
 void lireDonneesCSV(const char *nomFichier, Vol *vols, int *taille);
 void trierTab(Vol *vols, int taille);
 void afficherTabVol(Vol *vols, int taille, int heureActuelle);
-void generation_tab(int* heureActuelle, const char *fichierCSV);
+void generation_passager(int *heureActuelle, const char *fichierCSV);
 
 #endif // VOL_H_INCLUDED
