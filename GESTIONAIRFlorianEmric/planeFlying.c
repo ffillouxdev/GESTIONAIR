@@ -9,7 +9,7 @@ void gotoxy(int x, int y) {
 }
 
 /*
-la fonction qui permet de faire
+la fonction qui permet de faire se deplacer la chaine qui correspond a un avion
 */
 void affichagePlane() {
     const char ligne1[] = "            |\\\n";
@@ -22,7 +22,7 @@ void affichagePlane() {
     int x = 5;
     int y = 5;
     const char obj[] = "-----------------";
-    const char road[] = "\n--------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+    const char road[] = "\n--------------------------------------------------------------------------------------------------------------------------------------\n";
 
     int screenWidth = 110;
     int roadLength = screenWidth - 1;
@@ -65,7 +65,7 @@ void affichagePlane() {
             break;
         }
 
-        Sleep(70);
+        Sleep(60);
     }
 
 }

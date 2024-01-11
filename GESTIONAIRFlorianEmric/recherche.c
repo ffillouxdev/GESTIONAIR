@@ -233,3 +233,4 @@ void deductionRechercheHeuresDecol(int HeuresSaisie, Vol *vols, int taille) {
     if (compt == 0)
         printf("Il n'y a pas de vols dans un intervalle de 5 minutes avant et apres.\n");
 }
+

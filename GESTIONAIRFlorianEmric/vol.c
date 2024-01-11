@@ -120,17 +120,3 @@ void afficherTabVol(Vol *vols, int taille, int heureActuelle){
     }
 }
 
-
-void generation_passager(int *heureActuelle, const char *fichierCSV)
-{
-    Vol vols[TAILLE_TAB];
-    int taille = 0;
-    /*lireDonneesCSV(fichierCSV, vols, &taille);
-    trierTab(vols, taille);
-    afficherTabVol(vols, taille, *heureActuelle);
-    trierTab(vols, taille);
-    afficherTabVol(vols, taille, *heureActuelle);
-    // Modifiez l'appel de la fonction*/
-    afficherPassager(vols, taille, fichierCSV);
-}
-

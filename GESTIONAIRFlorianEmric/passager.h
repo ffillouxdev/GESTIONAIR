@@ -19,6 +19,5 @@ int annee_bissextile(int annee);
 int nombre_jour(int jour, int mois, int annee, int day);
 int unique1(int tab[], int taille, int k);
 
-
 #endif // PASSAGER_H_INCLUDED
 

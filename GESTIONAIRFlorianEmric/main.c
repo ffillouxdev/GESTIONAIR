@@ -60,7 +60,7 @@ printf("                                                                        
 
 color(15,0);
 
-    char filename[50] = "data_vols.csv";
+    char filename[50] = "data_vol.csv";
     /*printf("Entrez le nom du fichier : ");
     scanf("%s", &filename);*/
     lireDonneesCSV(filename, vols, &taille);

@@ -1,5 +1,5 @@
 #include "passager.h"
-#include "tri.h" // Recupration du tri selection decroissant
+ // Recupration du tri selection decroissant
  // Creation d'une structure qui va nous servir  recuperer la date du jour
 
 /*
@@ -17,7 +17,7 @@ int annee_bissextile(int annee) {
 Cette fonction renvoi le nombre de jours du mois
 */
 int nombre_jour_mois(int mois, int annee) {
-    if (mois == 2 && annee_bissextile(annee)) { // Cas d'un fvrier d'une anne bissextile
+    if (mois == 2 && annee_bissextile(annee)) { // Cas d'un fevrier d'une annee bissextile
         return 29;
     } else if (mois == 2) {
         return 28;
