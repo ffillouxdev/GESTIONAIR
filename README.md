@@ -9,8 +9,7 @@ Client : Directeur de l'aéroport Grenoble Alpes Isère
 
 ## **Ajouter les fichiers au git bash**
 ```
-cd existing_repo
-git init
+cd existing_repo ou git init
 git remote add origin https://forge.univ-lyon1.fr/p2203403/gestionair.git
 git branch -M main
 git add .
@@ -57,4 +56,4 @@ L'application offre plusieurs fonctionnalités essentielles pour la gestion effi
 
 **Gestion des Retards et des Annulations** : Traitement des retards en tentant de reprogrammer un vol retardé au plus tôt tout en respectant les contraintes de sécurité telles que le délai de 5 minutes minimum entre deux décollages et le couvre-feu de 6h à 22h. Possibilité d'annulation de vols qui ne peuvent pas décoller avant 22h.
 
-**Maximisation de l'Utilisation de la Piste (Bonus)** : Fonctionnalité qui vises à maximiser l'utilisation de la piste en reprogrammant les vols retardés pour maximiser le nombre de décollages sur la journée.
+**Maximisation de l'Utilisation de la Piste (Bonus)** : Fonctionnalité qui vise à maximiser l'utilisation de la piste en reprogrammant les vols retardés pour maximiser le nombre de décollages sur la journée.
